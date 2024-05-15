@@ -330,16 +330,16 @@ transition: opacity 0.2s ease;
     transform: scale(1.3);
 }
 .icon-reply{
-    background-image: url("./reply.svg");
+    background-image: url("/reply.svg");
 }
 .icon-like{
-    background-image: url("./like.svg");
+    background-image: url("/like.svg");
 }
 .icon-dislike{
-    background-image: url("./dislike.svg");
+    background-image: url("/dislike.svg");
 }
 .icon-copy {
-    background-image: url("./copy.svg");
+    background-image: url("/copy.svg");
 }
 .TypeReactionMessage {
     color: white;
