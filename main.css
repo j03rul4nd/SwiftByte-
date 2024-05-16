@@ -210,7 +210,7 @@ transition: opacity 0.2s ease;
     flex-wrap: nowrap;
     gap: 0.8rem;
     border-radius: 1rem;
-    width: 100%;
+    /* width: 100%; */
     background: transparent;
     border: 1px solid gray;
     height: 50px;
