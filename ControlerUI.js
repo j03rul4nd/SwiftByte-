@@ -1,7 +1,9 @@
 import { MyUser } from './creationUser.js'   
 import { MessageController } from './MessageController.js'
 
- 
+
+
+
 export class ControllerUI{
     constructor(){
         this.init();
@@ -15,8 +17,8 @@ export class ControllerUI{
             replySection.style.opacity = "0";
             replySection.setAttribute('active', 'false')
             var chatContent = document.getElementById('chatContent');
-             chatContent.style.maxHeight = "80vh";
-             chatContent.style.maxHeight = "80dvh";
+             chatContent.style.maxHeight = "77vh";
+             chatContent.style.maxHeight = "77dvh";
         })
 
         this.inputUIMessage();

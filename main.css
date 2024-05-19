@@ -64,6 +64,7 @@ body {
     display: flex;
     width: 99%;
     height: 99%;
+    max-height: 94dvh;
     border-radius: 1rem;
     background: black;
     flex-direction: column;
@@ -445,8 +446,8 @@ transition: opacity 0.2s ease;
     flex-grow: 1;
     overflow-y: auto;
     height: fit-content;
-    max-height: 83vh;
-    max-height: 83dvh;
+    max-height: 77vh;
+    max-height: 77dvh;
 
     /* gap: 1rem;
     display: flex; */
