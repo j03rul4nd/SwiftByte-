@@ -191,6 +191,8 @@ export class Message {
         replyMessage.style.maxHeight =  "50px";
         var chatContent = document.getElementById('chatContent');
         chatContent.style.maxHeight = "70vh";
+        chatContent.style.maxHeight = "70dvh";
+
 
         var userReply = document.querySelector('.userReplyMessageDataUser');
         userReply.setAttribute('user', `${user}`)

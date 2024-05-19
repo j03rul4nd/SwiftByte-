@@ -446,7 +446,7 @@ transition: opacity 0.2s ease;
     overflow-y: auto;
     height: fit-content;
     max-height: 83vh;
-  /*   max-height: 83dvh; */
+    max-height: 83dvh;
 
     /* gap: 1rem;
     display: flex; */
