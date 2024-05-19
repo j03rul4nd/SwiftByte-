@@ -206,11 +206,52 @@ export class ControllerUI{
             MyUser.imageUser = `./${userImgSelected}.png`
             MyUser.user = username.value;
             console.log(MyUser)
+            _me.initiConectionBack();
         })
 
 
 
+
     }
+    async initiConectionBack(){
+        const statusElement = document.getElementById("contextJoin")
+        // const loadingElement = document.getElementById("loading");
+        // const errorElement = document.getElementById("error");
+        // const connectionElement = document.getElementById("connection");
+        const startTime = performance.now();
+
+        // loadingElement.style.display = "block";
+        statusElement.innerHTML = "Loading";
+        // errorElement.style.display = "none";
+        // connectionElement.style.display = "none";
+
+        try {
+            // Simulación de conexión al backend
+            await new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Aquí se realizaría la conexión real al backend
+                    // En este caso, solo simularé una conexión exitosa después de 2 segundos
+                    resolve();
+                }, 2000);
+            });
+
+            const endTime = performance.now();
+            const elapsedTime = (endTime - startTime) / 1000; // Convertir a segundos
+            console.log("Successfully connected to backend.");
+            console.log(`Connection time: ${elapsedTime.toFixed(2)} seconds`);
+
+           // connectionElement.style.display = "block";
+           statusElement.innerHTML = "conected";
+        } catch (error) {
+            console.error("Error connecting to backend:", error);
+           // errorElement.style.display = "block";
+           statusElement.innerHTML = "Error connecting to backend";
+        } finally {
+            //loadingElement.style.display = "none";
+            statusElement.innerHTML = "susefully connected to backend";
+        }
+    }
+
     
 }
 
