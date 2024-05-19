@@ -652,16 +652,16 @@ transition: opacity 0.2s ease;
     opacity: 1;
 }
 #ImgUser_1{
-    background-image: url(./user_1.png);
+    background-image: url(/user_1.png);
 }
 #ImgUser_2{
-    background-image: url(./user_2.png);
+    background-image: url(/user_2.png);
 }
 #ImgUser_3{
-    background-image: url(./user_3.png);
+    background-image: url(/user_3.png);
 }
 #ImgUser_4{
-    background-image: url(./user_4.png);
+    background-image: url(/user_4.png);
 }
 .textSelectionImgLoginUser{
     color: #c4c4c4;
