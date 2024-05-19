@@ -23,6 +23,8 @@ export class ControllerUI{
 
         this.inputUIMessage();
         this.juicyBtn();
+
+        this.loginInitiate();
     }
     inputUIMessage(){
         let _me = this;
@@ -153,6 +155,61 @@ export class ControllerUI{
 
     updateDoom(){
         this.juicyBtn();
+    }
+
+    loginInitiate(){
+        let _me = this;
+        const userSelectionImg = document.querySelector(".selectionUserImage");
+        //default selection
+        let userImgSelected = "user_1"
+        userSelectionImg.style.backgroundImage = "url(./user_1.png)";
+
+        const userImg_1 = document.getElementById("ImgUser_1");
+        userImg_1.addEventListener("click", function(){
+            userImgSelected = "user_1"
+            userSelectionImg.style.backgroundImage = "url(./user_1.png)";
+        });
+        const userImg_2 = document.getElementById("ImgUser_2");
+        userImg_2.addEventListener("click", function(){
+            userImgSelected = "user_2"
+            userSelectionImg.style.backgroundImage = "url(./user_2.png)";
+        });
+        const userImg_3 = document.getElementById("ImgUser_3");
+        userImg_3.addEventListener("click", function(){
+            userImgSelected = "user_3"
+            userSelectionImg.style.backgroundImage = "url(./user_3.png)";
+        });
+        const userImg_4 = document.getElementById("ImgUser_4");
+        userImg_4.addEventListener("click", function(){
+            userImgSelected = "user_4"
+            userSelectionImg.style.backgroundImage = "url(./user_4.png)";
+        });
+
+
+        let username = document.getElementById("usernameLogin")
+        username.addEventListener("input", function() {
+            // Asegurarse de que el valor sea una cadena y luego aplicar trim()
+            const value = (username.value || "").trim();
+            
+            if (value !== "") {
+                btn.removeAttribute("disabled");
+            } else {
+                btn.setAttribute("disabled", "disabled");
+            }
+        });
+
+        const btn = document.getElementById("btnJoin");
+        btn.addEventListener("click", function (){
+            if (btn.hasAttribute("disabled")) {
+                return;
+            }
+            MyUser.imageUser = `./${userImgSelected}.png`
+            MyUser.user = username.value;
+            console.log(MyUser)
+        })
+
+
+
     }
     
 }
