@@ -26,10 +26,11 @@ body {
 }
 
 #sidebar {
+    display: none;
     border-radius: 1rem;
     width: 150px;
     height: 100%;
-    display: flex;
+    /* display: flex; */
     /* margin-top: 0.1rem; */
     /* margin-left: 0.1rem; */
     /* margin-right: 0.1rem; */
@@ -561,7 +562,7 @@ transition: opacity 0.2s ease;
     /* max-height: 94dvh; */
     z-index: 999;
     /* background-color: rgba(255, 0, 0, 0.528); */
-    background: linear-gradient(to bottom, rgb(0 0 0 / 70%) 50%, rgb(0 0 0 / 57%) 100%);
+    background: linear-gradient(to bottom, rgb(0 0 0 / 84%) 50%, rgb(0 0 0 / 51%) 100%);
     /* width: 67%; */
     border-radius: 1rem;
     flex-direction: column;
@@ -586,6 +587,7 @@ transition: opacity 0.2s ease;
     opacity: 0.4;
     cursor: not-allowed;
 }
+
 #btnJoin{
     display: flex;
     border-radius: 1rem;
@@ -596,7 +598,7 @@ transition: opacity 0.2s ease;
     cursor: pointer;
     transition: all 0.5s ease-in-out; 
 }
-#btnJoin:hover{
+#btnJoin:hover:not([disabled]) {
     background-color: rgba(255, 255, 255, 0.697);
     color: black;
     transition: all 0.5s ease-in-out; 
@@ -682,3 +684,10 @@ transition: opacity 0.2s ease;
 .textSelectionImgLoginUser{
     color: #c4c4c4;
 }
+
+/* Media query para tablets y dispositivos mayores */
+@media (min-width: 768px) {
+    #sidebar {
+      display: flex; /* Visible en tablets y dispositivos mayores */
+    }
+  }

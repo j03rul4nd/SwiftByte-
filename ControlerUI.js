@@ -213,8 +213,9 @@ export class ControllerUI{
 
 
     }
+    socket = null;
     async initiConectionBack(){
-        const statusElement = document.getElementById("contextJoin")
+        const statusElement = document.getElementById("contextJoin");
         // const loadingElement = document.getElementById("loading");
         // const errorElement = document.getElementById("error");
         // const connectionElement = document.getElementById("connection");
@@ -226,29 +227,59 @@ export class ControllerUI{
         // connectionElement.style.display = "none";
 
         try {
-            // Simulación de conexión al backend
+            // Crear una nueva instancia de WebSocket
+            this.socket = new WebSocket('ws://localhost:3000');
+
+            // Promesa para esperar a que la conexión se establezca
             await new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    // Aquí se realizaría la conexión real al backend
-                    // En este caso, solo simularé una conexión exitosa después de 2 segundos
+                this.socket.onopen = (event) => {
+                    console.log('Conexión WebSocket abierta:', event);
+                    // Enviar un mensaje al servidor
+                    this.socket.send('Hola servidor!');
                     resolve();
-                }, 2000);
+                };
+
+                this.socket.onerror = (error) => {
+                    console.error('Error en la conexión WebSocket:', error);
+                    reject(error);
+                };
             });
+
+            // Configurar los manejadores de eventos restantes después de que la conexión se haya abierto
+            this.socket.onmessage = (event) => {
+                console.log('Mensaje recibido del servidor:', event.data);
+            };
+
+            this.socket.onclose = (event) => {
+                console.log('Conexión WebSocket cerrada:', event);
+                statusElement.innerHTML = "WebSocket connection closed";
+            };
+
+            this.sendMessage('Hola mundo');
 
             const endTime = performance.now();
             const elapsedTime = (endTime - startTime) / 1000; // Convertir a segundos
             console.log("Successfully connected to backend.");
             console.log(`Connection time: ${elapsedTime.toFixed(2)} seconds`);
 
-           // connectionElement.style.display = "block";
-           statusElement.innerHTML = "conected";
+            // connectionElement.style.display = "block";
+            statusElement.innerHTML = "Successfully connected to backend";
         } catch (error) {
             console.error("Error connecting to backend:", error);
-           // errorElement.style.display = "block";
-           statusElement.innerHTML = "Error connecting to backend";
+            // errorElement.style.display = "block";
+            statusElement.innerHTML = "Error connecting to backend";
         } finally {
-            //loadingElement.style.display = "none";
-            statusElement.innerHTML = "susefully connected to backend";
+            // loadingElement.style.display = "none";
+            statusElement.innerHTML = "Finished connection attempt";
+        }
+    }
+
+    // Método para enviar un mensaje a través del WebSocket
+    sendMessage(message) {
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(message);
+        } else {
+            console.log('WebSocket no está abierta o no existe.');
         }
     }
 
