@@ -232,7 +232,7 @@ export class ControllerUI{
         try {
             // Crear una nueva instancia de WebSocket
             const wsUrl = process.env.WS_URL || 'ws://localhost:3000';
-
+            console.log(wsUrl);
             this.socket = new WebSocket(wsUrl);
 
             // Promesa para esperar a que la conexión se establezca
