@@ -633,7 +633,7 @@ transition: opacity 0.2s ease;
 .selectionUserImage{
     width: 48px;
     height: 48px;
-    background-image: url(./user_1.png);
+    background-image: url(/user_1.png);
     background-size: cover;
     border: 2px solid white;
     border-radius: 2rem;
