@@ -1,6 +1,7 @@
 import { MyUser } from './creationUser.js'   
 import { MessageController } from './MessageController.js'
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 
@@ -228,7 +229,9 @@ export class ControllerUI{
 
         try {
             // Crear una nueva instancia de WebSocket
-            this.socket = new WebSocket('ws://localhost:3000');
+            const wsUrl = process.env.WS_URL || 'ws://localhost:3000';
+
+            this.socket = new WebSocket(wsUrl);
 
             // Promesa para esperar a que la conexión se establezca
             await new Promise((resolve, reject) => {
