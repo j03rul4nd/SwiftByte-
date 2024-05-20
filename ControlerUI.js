@@ -1,8 +1,9 @@
 import { MyUser } from './creationUser.js'   
 import { MessageController } from './MessageController.js'
 import dotenv from 'dotenv';
-dotenv.config();
 
+
+//require("dotenv").config();
 
 
 export class ControllerUI{
@@ -216,6 +217,7 @@ export class ControllerUI{
     }
     socket = null;
     async initiConectionBack(){
+        dotenv.config();
         const statusElement = document.getElementById("contextJoin");
         // const loadingElement = document.getElementById("loading");
         // const errorElement = document.getElementById("error");
