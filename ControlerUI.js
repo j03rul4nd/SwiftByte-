@@ -1,7 +1,5 @@
 import { MyUser } from './creationUser.js'   
 import { MessageController } from './MessageController.js'
-import dotenv from 'dotenv';
-
 
 //require("dotenv").config();
 
@@ -217,7 +215,7 @@ export class ControllerUI{
     }
     socket = null;
     async initiConectionBack(){
-        dotenv.config();
+       
         const statusElement = document.getElementById("contextJoin");
         // const loadingElement = document.getElementById("loading");
         // const errorElement = document.getElementById("error");
@@ -231,7 +229,7 @@ export class ControllerUI{
 
         try {
             // Crear una nueva instancia de WebSocket
-            const wsUrl = process.env.WS_URL || 'ws://localhost:3000';
+            const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3000';
             console.log(wsUrl);
             this.socket = new WebSocket(wsUrl);
 
