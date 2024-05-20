@@ -120,7 +120,10 @@ export class ControllerUI{
     sendNewMessage(data){
         this.messageController.createMessage(data); // to doom
         this.updateDoom(); // update doom
-        this.sendMessage(data); // to backend
+        
+        // Serializa el objeto a una cadena JSON
+        const jsonString = JSON.stringify(data);
+        this.sendMessage(jsonString); // to backend
 
     }
     juicyBtn() {
@@ -261,9 +264,25 @@ export class ControllerUI{
             // Configurar los manejadores de eventos restantes después de que la conexión se haya abierto
             this.socket.onmessage = (event) => {
                 console.log('Mensaje recibido del servidor:', event.data);
-                if(typeof event.data != "string"){
-                    this.messageController.createMessage(event.data); // to doom
-                    this.updateDoom(); // update doom
+
+                try {
+                    // Intentar parsear el JSON
+                    let data = JSON.parse(event.data);
+            
+                    // Verificar si data es un objeto y contiene las propiedades esperadas
+                    if (typeof data === 'object' && data !== null && data.hasOwnProperty('id')) {
+                        console.log(data.id);
+                        console.log(data.user);
+                        console.log(data.msg);
+
+                        this.messageController.createMessage(data); // to doom
+                           
+                    } else {
+                        console.log('El JSON no tiene la estructura esperada.');
+                    }
+                } catch (e) {
+                    // Si el JSON.parse falla, esto es un string normal
+                    console.log('event.data no es un JSON válido:', event.data);
                 }
                 
             };
