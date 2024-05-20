@@ -262,7 +262,7 @@ export class ControllerUI{
             this.socket.onmessage = (event) => {
                 console.log('Mensaje recibido del servidor:', event.data);
                 if(typeof event.data != "string"){
-                    this.messageController.createMessage(data); // to doom
+                    this.messageController.createMessage(event.data); // to doom
                     this.updateDoom(); // update doom
                 }
                 
