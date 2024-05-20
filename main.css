@@ -421,6 +421,7 @@ transition: opacity 0.2s ease;
     justify-content: flex-start;
 }
 .gradientDifuminator {
+    display: flex;
     width: 98%;
     height: 71px;
     background: red;
@@ -684,6 +685,25 @@ transition: opacity 0.2s ease;
 .textSelectionImgLoginUser{
     color: #c4c4c4;
 }
+#shareLinkChat{
+    border: 1px solid white;
+    border-radius: 15px;
+    color: white;
+    display: flex;
+    padding: 10px;
+    padding-top: 9px;
+    width: fit-content;
+    padding-bottom: 9px;
+    cursor: pointer;
+    pointer-events: all;
+}
+#shareLinkChat:hover{
+    background-color: rgba(255, 255, 255, 0.428);
+}
+
+
+
+
 
 /* Media query para tablets y dispositivos mayores */
 @media (min-width: 768px) {

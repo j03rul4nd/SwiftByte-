@@ -220,6 +220,7 @@ export class ControllerUI{
             MyUser.user = username.value;
             console.log(MyUser)
             _me.initiConectionBack();
+            _me.stopSimulation();
         })
 
 
@@ -251,7 +252,9 @@ export class ControllerUI{
                     console.log('Conexión WebSocket abierta:', event);
                     // Enviar un mensaje al servidor
                     this.socket.send('Hola servidor!');
-                    this.hideHomePgae()
+                    
+                    this.hideHomePgae();
+                    this.NewChat();
                     resolve();
                 };
 
@@ -317,6 +320,8 @@ export class ControllerUI{
         HomePageElement.style.display = "none";
     }
 
+    
+
     // Método para enviar un mensaje a través del WebSocket
     sendMessage(message) {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
@@ -327,38 +332,64 @@ export class ControllerUI{
     }
 
     NewChat(){
+        let shareChatRoom =  document.getElementById("shareLinkChat");
+        let roomChatCode = ""
+        let UrlLinkChatRoom = `https://swiftbyte.onrender.com/${roomChatCode}`
+      
+        shareChatRoom.addEventListener("click", function (){
+            console.log("copy")
+            navigator.clipboard.writeText(UrlLinkChatRoom)
+            .then(function() {
+                console.log("UrlLinkChatRoom: "+UrlLinkChatRoom)
+            })
+            .catch(function(err) {
+                console.error('Error al intentar copiar el texto: ', err);
+            });
+        });
 
     }
+    timeouts = []; 
+    clearTimeouts() {
+        // Limpiar todos los temporizadores almacenados
+        this.timeouts.forEach(timeout => clearTimeout(timeout));
+        this.timeouts = []; // Reiniciar el array de temporizadores
+    }
+    stopSimulation() {
+        this.clearTimeouts();
+    }
 
-    simulationChat(){
+   simulationChat() {
+        this.clearTimeouts(); // Limpiar cualquier temporizador previo antes de iniciar la simulación
 
-        this.messageController.createMessage({
-            id: "10001",
-            imageUser: "./user_5.png",
-            user: "Alice",
-            time: "10:00",
-            msg: "Hey everyone!",
-            type: "message",
-            ContainReactiosn: true,
-            reactions: {
-                like: {
-                    type: "Like",
-                    iconClass: "icon-like",
-                    usersReactions: [
-                        {
-                            user: "Bob",
-                            urlImg: "./user_2.png"
-                        },
-                        {
-                            user: "Charlie",
-                            urlImg: "./user_3.png"
-                        }
-                    ]
+        this.timeouts.push(setTimeout(() => {
+            this.messageController.createMessage({
+                id: "10001",
+                imageUser: "./user_5.png",
+                user: "Alice",
+                time: "10:00",
+                msg: "Hey everyone!",
+                type: "message",
+                ContainReactiosn: true,
+                reactions: {
+                    like: {
+                        type: "Like",
+                        iconClass: "icon-like",
+                        usersReactions: [
+                            {
+                                user: "Bob",
+                                urlImg: "./user_2.png"
+                            },
+                            {
+                                user: "Charlie",
+                                urlImg: "./user_3.png"
+                            }
+                        ]
+                    }
                 }
-            }
-        });
+            });
+        }, 0));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10002",
                 imageUser: "./user_2.png",
@@ -368,9 +399,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 1000);
+        }, 1000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10003",
                 imageUser: "./user_3.png",
@@ -380,9 +411,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 2000);
+        }, 2000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10004",
                 imageUser: "./user_5.png",
@@ -404,9 +435,9 @@ export class ControllerUI{
                     }
                 }
             });
-        }, 3000);
+        }, 3000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10005",
                 imageUser: "./user_2.png",
@@ -416,9 +447,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 4000);
+        }, 4000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10006",
                 imageUser: "./user_3.png",
@@ -428,9 +459,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 5000);
+        }, 5000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10007",
                 imageUser: "./user_5.png",
@@ -440,9 +471,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 6000);
+        }, 6000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10008",
                 imageUser: "./user_2.png",
@@ -456,9 +487,9 @@ export class ControllerUI{
                 },
                 ContainReactiosn: false,
             });
-        }, 7000);
+        }, 7000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10009",
                 imageUser: "./user_3.png",
@@ -468,9 +499,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 8000);
+        }, 8000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10010",
                 imageUser: "./user_5.png",
@@ -480,9 +511,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 9000);
+        }, 9000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10011",
                 imageUser: "./user_2.png",
@@ -492,9 +523,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 10000);
+        }, 10000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10012",
                 imageUser: "./user_3.png",
@@ -504,9 +535,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 11000);
+        }, 11000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10013",
                 imageUser: "./user_5.png",
@@ -516,9 +547,9 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 12000);
+        }, 12000));
         
-        setTimeout(() => {
+        this.timeouts.push(setTimeout(() => {
             this.messageController.createMessage({
                 id: "10014",
                 imageUser: "./user_2.png",
@@ -528,7 +559,7 @@ export class ControllerUI{
                 type: "message",
                 ContainReactiosn: false,
             });
-        }, 13000);
+        }, 13000));
     }
 
     
