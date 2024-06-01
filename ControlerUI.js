@@ -200,26 +200,70 @@ export class ControllerUI{
 
 
         let username = document.getElementById("usernameLogin")
+        const btn = document.getElementById("btnJoin");
+        const btnJoinRoom = document.getElementById("btnJoinRoom");
         username.addEventListener("input", function() {
             // Asegurarse de que el valor sea una cadena y luego aplicar trim()
             const value = (username.value || "").trim();
             
             if (value !== "") {
                 btn.removeAttribute("disabled");
+                btnJoinRoom.removeAttribute("disabled");
             } else {
                 btn.setAttribute("disabled", "disabled");
+                btnJoinRoom.setAttribute("disabled", "disabled");
             }
         });
 
-        const btn = document.getElementById("btnJoin");
+       
         btn.addEventListener("click", function (){
             if (btn.hasAttribute("disabled")) {
                 return;
             }
+            btnJoinRoom.setAttribute("disabled", "disabled");
             MyUser.imageUser = `./${userImgSelected}.png`
             MyUser.user = username.value;
             console.log(MyUser)
-            _me.initiConectionBack();
+            const statusElement = document.getElementById("contextJoin");
+            _me.initiConectionBack(statusElement, false);
+            _me.stopSimulation();
+        })
+
+        const userRoomCodeElement = document.getElementById("userRoomCode");
+        userRoomCodeElement.addEventListener("input", function() {
+            // Asegurarse de que el valor sea una cadena y luego aplicar trim()
+            const value = (userRoomCodeElement.value || "").trim();
+
+            const usernameValue = (username.value || "").trim();
+            
+            if (value !== "") {
+                btnJoinRoom.removeAttribute("disabled");
+                if (usernameValue !== "") {
+                    btnJoinRoom.removeAttribute("disabled");
+                } else {
+                    btnJoinRoom.setAttribute("disabled", "disabled");
+                }
+            } else {
+                btnJoinRoom.setAttribute("disabled", "disabled");
+                if (usernameValue !== "") {
+                    btnJoinRoom.removeAttribute("disabled");
+                } else {
+                    btnJoinRoom.setAttribute("disabled", "disabled");
+                }
+            }
+        });
+
+        btnJoinRoom.addEventListener("click", function(){
+            if (btnJoinRoom.hasAttribute("disabled")) {
+                return;
+            }
+            btn.setAttribute("disabled", "disabled");
+            MyUser.imageUser = `./${userImgSelected}.png`
+            MyUser.user = username.value;
+            console.log(MyUser)
+            const statusElement = document.getElementById("contextJoinRoom");
+            const RoomCode = userRoomCodeElement.value;
+            _me.initiConectionBack(statusElement, true, RoomCode);
             _me.stopSimulation();
         })
 
@@ -227,9 +271,8 @@ export class ControllerUI{
 
 
     }
-    async initiConectionBack(){
+    async initiConectionBack(statusElement, joinroom, RoomCode =""){
        
-        const statusElement = document.getElementById("contextJoin");
         // const loadingElement = document.getElementById("loading");
         // const errorElement = document.getElementById("error");
         // const connectionElement = document.getElementById("connection");
@@ -251,7 +294,27 @@ export class ControllerUI{
                 this.socket.onopen = (event) => {
                     console.log('Conexión WebSocket abierta:', event);
                     // Enviar un mensaje al servidor
-                    this.socket.send('Hola servidor!');
+                    if(joinroom){
+                        // Serializa el objeto a una cadena JSON
+                        let dataConnect =  {
+                            "type":  "join_room",
+                            "roomCode": `${RoomCode}`,
+                            "ContainReactiosn":  "hola join_room",
+                            
+                        }
+                        const jsonString = JSON.stringify(dataConnect);
+                        this.sendMessage(jsonString); // to backend
+                    }else{
+                        // Serializa el objeto a una cadena JSON
+                        let dataConnect =  {
+                            "type":  "create_room",
+                            "ContainReactiosn":  "hola create_room",
+                            
+                        }
+                        const jsonString = JSON.stringify(dataConnect);
+                        this.sendMessage(jsonString); // to backend
+                        //this.socket.send('new room');
+                    }
                     
                     this.hideHomePgae();
                     this.NewChat();
@@ -266,11 +329,25 @@ export class ControllerUI{
 
             // Configurar los manejadores de eventos restantes después de que la conexión se haya abierto
             this.socket.onmessage = (event) => {
-                console.log('Mensaje recibido del servidor:', event.data);
+                console.log('Mensaje recibido del servidor:', event);
 
                 try {
                     // Intentar parsear el JSON
                     let data = JSON.parse(event.data);
+                    if(data.type == "room_created" ){
+                        //{"type":"room_created","roomCode":"8AXB7I59"}
+                        console.log("RoomCode: " + data.roomCode);
+                        
+                        // Obtener la URL actual
+                        let currentUrl = new URL(window.location.href);
+
+                        // Agregar el parámetro 'roomCode' a la URL
+                        currentUrl.searchParams.set('roomCode', data.roomCode);
+
+                        // Actualizar la URL en la barra de direcciones sin recargar la página
+                        window.history.pushState({}, '', currentUrl);
+                        return this;
+                    }
             
                     // Verificar si data es un objeto y contiene las propiedades esperadas
                     if (typeof data === 'object' && data !== null && data.hasOwnProperty('id')) {
@@ -281,7 +358,7 @@ export class ControllerUI{
                         this.messageController.createMessage(data); // to doom
                            
                     } else {
-                        console.log('El JSON no tiene la estructura esperada.');
+                        console.log('El JSON no tiene la estructura esperada.'+ JSON.stringify(event));
                     }
                 } catch (e) {
                     // Si el JSON.parse falla, esto es un string normal
@@ -333,8 +410,8 @@ export class ControllerUI{
 
     NewChat(){
         let shareChatRoom =  document.getElementById("shareLinkChat");
-        let roomChatCode = ""
-        let UrlLinkChatRoom = `https://swiftbyte.onrender.com/${roomChatCode}`
+
+        let UrlLinkChatRoom = new URL(window.location.href)
       
         shareChatRoom.addEventListener("click", function (){
             console.log("copy")

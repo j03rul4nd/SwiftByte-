@@ -588,12 +588,14 @@ transition: opacity 0.2s ease;
     /* background-color: red; */
     width: 250px;
 }
-#btnJoin[disabled]{
+#btnJoin[disabled],
+#btnJoinRoom[disabled]{
     opacity: 0.4;
     cursor: not-allowed;
 }
 
-#btnJoin{
+#btnJoin,
+#btnJoinRoom{
     display: flex;
     border-radius: 1rem;
     border: 1px solid white;
@@ -603,12 +605,14 @@ transition: opacity 0.2s ease;
     cursor: pointer;
     transition: all 0.5s ease-in-out; 
 }
-#btnJoin:hover:not([disabled]) {
+#btnJoin:hover:not([disabled]),
+#btnJoinRoom:hover:not([disabled]) {
     background-color: rgba(255, 255, 255, 0.697);
     color: black;
     transition: all 0.5s ease-in-out; 
 }
-#usernameLogin {
+#usernameLogin,
+#userRoomCode {
     background: transparent;
     color: white;
     border: 1px solid white;
@@ -619,19 +623,29 @@ transition: opacity 0.2s ease;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.SectionNameLogin {
+.SectionNameLogin,
+.SectionRoomCode{
     display: flex;
     gap: 5px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
 }
-
-#usernameLogin:focus {
+#joinRoom{
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+}
+#usernameLogin:focus,
+#userRoomCode:focus {
     border-color: white;
     box-shadow: 0 0 5px white; /* Añade un pequeño resplandor al borde */
 }
-#usernameLogin::placeholder {
+#usernameLogin::placeholder,
+#userRoomCode::placeholder {
     color: rgba(255, 255, 255, 0.7); /* Placeholder en blanco con algo de transparencia */
 }
 
