@@ -216,6 +216,7 @@ export class ControllerUI{
         });
 
        
+       
         btn.addEventListener("click", function (){
             if (btn.hasAttribute("disabled")) {
                 return;
@@ -408,15 +409,28 @@ export class ControllerUI{
                         this.showHomePage();
 
                         //data.message "room not found"
-                        let previousContent = statusElement.innerHTML;
+                        let previousContent = "Join to chat";
+
+                        const btnCreationNewChat = document.getElementById("btnJoin");
+                        btnCreationNewChat.removeAttribute("disabled");
 
                         // Cambia el contenido del botón para mostrar el mensaje de error
                         statusElement.innerHTML = data.message;
 
                         // Después de 3 segundos, restaura el estado anterior del botón
+
+                        let userRoomCode =document.getElementById("userRoomCode")
+                        userRoomCode.classList.add('shake');
+
+                        // Quita la clase después de 1 segundo
+                        setTimeout(function() {
+                            userRoomCode.classList.remove('shake');
+                        }, 1000);
+
+
                         setTimeout(function() {
                             statusElement.innerHTML = previousContent;
-                        }, 3000); 
+                        }, 2000); 
 
                         
                         return this
