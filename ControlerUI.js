@@ -388,10 +388,16 @@ export class ControllerUI{
                     }else if(data.type == "connected_clients"){
                         const usersConnectedRoom = data.count;
                         this.updateCountUsersConected(usersConnectedRoom);
-                        if(data.count != this.oldDataCounUsersConnectedRoom){
-                            this.alertsChat("new_user_conected");
+                        if (data.count !== this.oldDataCounUsersConnectedRoom) {
+                            if (data.count < this.oldDataCounUsersConnectedRoom) {
+                                this.alertsChat("user_disconected");
+                            } else if (data.count > this.oldDataCounUsersConnectedRoom) {
+                                this.alertsChat("new_user_conected");
+                            }
+                            // Actualizar el contador de usuarios conectados
                             this.oldDataCounUsersConnectedRoom = data.count;
                         }
+                        
                         return this;
                     }else if(data.type == "room_joined"){
 
