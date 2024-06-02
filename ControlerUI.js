@@ -500,9 +500,41 @@ export class ControllerUI{
         }
     }
 
+    clearChat(){
+        let cntrChat = document.getElementById("chatContent");
+        cntrChat.innerHTML = ""
+        //clear chat simulation
+    }
+
+    alertsChat(type){
+        // new chat
+        // new user conected
+        // user disconected
+        switch (type) {
+            case "new_chat":
+                
+                break;
+            case "new_user_conected":
+            
+                 break;
+            case "user_disconected":
+            
+                 break;
+            case "room_deleted":
+            
+                 break;
+        
+            default:
+                break;
+        }
+
+    }
+
     NewChat(){
         let _me = this;
         let shareChatRoom =  document.getElementById("shareLinkChat");
+        
+        this.clearChat();
 
         
         shareChatRoom.addEventListener("click", function (){
