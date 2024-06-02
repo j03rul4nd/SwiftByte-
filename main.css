@@ -703,6 +703,9 @@ transition: opacity 0.2s ease;
 .textSelectionImgLoginUser{
     color: #c4c4c4;
 }
+#userRoomCode {
+    width: 67px;
+}
 #shareLinkChat{
     border: 1px solid white;
     border-radius: 15px;
