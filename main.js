@@ -5,6 +5,8 @@ import { ControllerUI } from './ControlerUI.js'
 
 const controllerUI = new ControllerUI();
 
+window.controllerUI = controllerUI;
+
 // home page 
 // inicair secion
 // conectar con backend

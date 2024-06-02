@@ -269,6 +269,26 @@ export class ControllerUI{
 
 
 
+        function getParameterByName(name) {
+            let url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Obtener el valor del parámetro roomCode de la URL
+        let roomCode = getParameterByName('roomCode');
+
+        // Si existe roomCode, asignarlo al valor del input
+        if (roomCode) {
+            
+          userRoomCodeElement.value = roomCode;
+       
+        }
+
 
     }
     async initiConectionBack(statusElement, joinroom, RoomCode =""){
@@ -304,6 +324,15 @@ export class ControllerUI{
                         }
                         const jsonString = JSON.stringify(dataConnect);
                         this.sendMessage(jsonString); // to backend
+
+                        // conectios room get_connected_clients
+                        let getUserConectionsData =  {
+                            "type":  "get_connected_clients",
+                            "roomCode": `${RoomCode}`,                            
+                        }
+                        const jsonStringusers = JSON.stringify(getUserConectionsData);
+                        this.sendMessage(jsonStringusers); // to backend
+
                     }else{
                         // Serializa el objeto a una cadena JSON
                         let dataConnect =  {
@@ -341,11 +370,39 @@ export class ControllerUI{
                         // Obtener la URL actual
                         let currentUrl = new URL(window.location.href);
 
+                        this.roomCode = data.roomCode;
                         // Agregar el parámetro 'roomCode' a la URL
                         currentUrl.searchParams.set('roomCode', data.roomCode);
 
                         // Actualizar la URL en la barra de direcciones sin recargar la página
                         window.history.pushState({}, '', currentUrl);
+
+                        this.copyUrlShare = currentUrl;
+                        document.getElementById("roomCodeShare").innerHTML = this.roomCode;
+
+                        return this;
+                    }else if(data.type == "connected_clients"){
+                        const usersConnectedRoom = data.count;
+                        this.updateCountUsersConected(usersConnectedRoom);
+                        return this;
+                    }else if(data.type == "room_joined"){
+
+                         //{"type":"room_created","roomCode":"8AXB7I59"}
+                         console.log("RoomCode: " + data.roomCode);
+                        
+                         // Obtener la URL actual
+                         let currentUrl = new URL(window.location.href);
+ 
+                         this.roomCode = data.roomCode;
+                         // Agregar el parámetro 'roomCode' a la URL
+                         currentUrl.searchParams.set('roomCode', data.roomCode);
+ 
+                         // Actualizar la URL en la barra de direcciones sin recargar la página
+                         window.history.pushState({}, '', currentUrl);
+ 
+                         this.copyUrlShare = currentUrl;
+                         document.getElementById("roomCodeShare").innerHTML = this.roomCode;
+
                         return this;
                     }
             
@@ -409,11 +466,25 @@ export class ControllerUI{
     }
 
     NewChat(){
+        let _me = this;
         let shareChatRoom =  document.getElementById("shareLinkChat");
 
-        let UrlLinkChatRoom = new URL(window.location.href)
-      
+        
         shareChatRoom.addEventListener("click", function (){
+
+
+            let originalText = shareChatRoom.innerHTML;
+
+            // Change the text to "Copied Link"
+            shareChatRoom.innerHTML = '<span>Copied Link</span>';
+
+            // Restore the original text after 2 seconds
+            setTimeout(() => {
+                shareChatRoom.innerHTML = originalText;
+            }, 2000);
+
+
+            let UrlLinkChatRoom = _me.copyUrlShare.href;
             console.log("copy")
             navigator.clipboard.writeText(UrlLinkChatRoom)
             .then(function() {
@@ -637,6 +708,12 @@ export class ControllerUI{
                 ContainReactiosn: false,
             });
         }, 13000));
+    }
+
+    updateCountUsersConected(user){
+
+        const elementcount = document.getElementById("users_count");
+        elementcount.innerHTML = `${user}`;
     }
 
     

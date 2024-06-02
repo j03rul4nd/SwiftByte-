@@ -708,12 +708,17 @@ transition: opacity 0.2s ease;
     border-radius: 15px;
     color: white;
     display: flex;
+    gap: 0.6rem;
     padding: 10px;
     padding-top: 9px;
     width: fit-content;
     padding-bottom: 9px;
     cursor: pointer;
     pointer-events: all;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
 #shareLinkChat:hover{
