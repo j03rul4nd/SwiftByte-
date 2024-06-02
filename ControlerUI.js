@@ -404,6 +404,22 @@ export class ControllerUI{
                          document.getElementById("roomCodeShare").innerHTML = this.roomCode;
 
                         return this;
+                    }else if(data.type == "error"){
+                        this.showHomePage();
+
+                        //data.message "room not found"
+                        let previousContent = statusElement.innerHTML;
+
+                        // Cambia el contenido del botón para mostrar el mensaje de error
+                        statusElement.innerHTML = data.message;
+
+                        // Después de 3 segundos, restaura el estado anterior del botón
+                        setTimeout(function() {
+                            statusElement.innerHTML = previousContent;
+                        }, 3000); 
+
+                        
+                        return this
                     }
             
                     // Verificar si data es un objeto y contiene las propiedades esperadas
@@ -452,6 +468,11 @@ export class ControllerUI{
         const HomePageElement = document.querySelector(".homePage");
 
         HomePageElement.style.display = "none";
+    }
+    showHomePage(){
+        const HomePageElement = document.querySelector(".homePage");
+
+        HomePageElement.style.display = "flex";
     }
 
     
