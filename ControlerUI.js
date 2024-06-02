@@ -6,6 +6,7 @@ import { MessageController } from './MessageController.js'
 
 export class ControllerUI{
     
+    oldDataCounUsersConnectedRoom = 0;
     socket = null;
     messageController = null;
     constructor(){
@@ -333,6 +334,7 @@ export class ControllerUI{
                         }
                         const jsonStringusers = JSON.stringify(getUserConectionsData);
                         this.sendMessage(jsonStringusers); // to backend
+                        this.NewChat("room_joined");
 
                     }else{
                         // Serializa el objeto a una cadena JSON
@@ -344,10 +346,11 @@ export class ControllerUI{
                         const jsonString = JSON.stringify(dataConnect);
                         this.sendMessage(jsonString); // to backend
                         //this.socket.send('new room');
+                        this.NewChat("new_chat");
                     }
                     
                     this.hideHomePgae();
-                    this.NewChat();
+                  
                     resolve();
                 };
 
@@ -385,6 +388,10 @@ export class ControllerUI{
                     }else if(data.type == "connected_clients"){
                         const usersConnectedRoom = data.count;
                         this.updateCountUsersConected(usersConnectedRoom);
+                        if(data.count != this.oldDataCounUsersConnectedRoom){
+                            this.alertsChat("new_user_conected");
+                            this.oldDataCounUsersConnectedRoom = data.count;
+                        }
                         return this;
                     }else if(data.type == "room_joined"){
 
@@ -506,21 +513,66 @@ export class ControllerUI{
         //clear chat simulation
     }
 
+    creationElemenAlert(context){
+        let cntrChat = document.getElementById("chatContent");
+
+            let sectionChatMessageUserCNTR = document.createElement("div");
+            sectionChatMessageUserCNTR.className ="sectionChatMessageUserCNTR alertChatSection";
+
+
+            let alertSectionElement = document.createElement("div");
+            alertSectionElement.className = "alertSectionElement";
+
+            let wavyLineLeft = document.createElement("div");
+            wavyLineLeft.className = "wavy-line";
+
+            let alertText = document.createElement("div");
+            alertText.className = "alertText";
+
+            alertText.innerHTML = context;
+
+            let wavyLineRight = document.createElement("div");
+            wavyLineRight.className = "wavy-line";
+
+            alertSectionElement.appendChild(wavyLineLeft);
+            alertSectionElement.appendChild(alertText);
+            alertSectionElement.appendChild(wavyLineRight);
+
+            sectionChatMessageUserCNTR.appendChild(alertSectionElement);
+
+            cntrChat.appendChild(sectionChatMessageUserCNTR);
+    }
+
     alertsChat(type){
         // new chat
         // new user conected
         // user disconected
         switch (type) {
             case "new_chat":
+
+            
+            this.creationElemenAlert("New chat created")
+
                 
                 break;
             case "new_user_conected":
+
+            this.creationElemenAlert("New user conencted")
             
                  break;
+            case "room_joined":
+            
+            this.creationElemenAlert("Successfully connected")
+
+                break;
             case "user_disconected":
+
+            this.creationElemenAlert("User disconected")
             
                  break;
             case "room_deleted":
+
+            this.creationElemenAlert("Room deleted")
             
                  break;
         
@@ -530,11 +582,12 @@ export class ControllerUI{
 
     }
 
-    NewChat(){
+    NewChat(TypeAlert){
         let _me = this;
         let shareChatRoom =  document.getElementById("shareLinkChat");
         
         this.clearChat();
+        this.alertsChat(TypeAlert);
 
         
         shareChatRoom.addEventListener("click", function (){

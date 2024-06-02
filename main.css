@@ -468,6 +468,45 @@ transition: opacity 0.2s ease;
 #shareLinkChat span {
     opacity: 0.8;
 }
+.sectionChatMessageUserCNTR.alertChatSection {
+    color: white;
+    display: flex;
+    /* background: #313131; */
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.alertSectionElement {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.alertText {
+    padding: 0 10px;
+    font-size: 16px;
+    color: #afafaf;
+}
+
+.wavy-line {
+    flex-grow: 1;
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        #858585,
+        #858585 5px,
+        transparent 5px,
+        transparent 10px
+    );
+}
+
+
+
+
 .shake {
     animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
 }
